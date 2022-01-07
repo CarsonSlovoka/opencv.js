@@ -1,11 +1,34 @@
 <head>
   <meta charset="utf-8">
   <title>OpenCV.js</title>
-  <link rel="icon" sizes="any" type="image/svg+xml" href="static/img/favicon.svg" >
+  <link rel="icon" sizes="any" type="image/svg+xml" href="static/img/favicon.svg">
   <link rel="stylesheet" href="static/css/styles.css">
-  <script src="static/js/src/index.js"></script>
+  <script type="module" src="static/js/src/index.js"></script>
+  <script type="module" src="static/js/pkg/tmpl/include.js"></script>
 </head>
 
-<body>
+<body class="container">
+<br data-include-html="tmpl/navbar.html">
 
+<section class="mt-5">
+  <h1>Download</h1>
+  <button id="button">download opencv.js</button>
+</section>
 </body>
+
+<script>
+  async function getOpenCVTags() {
+    const owner = "opencv"
+    const repo = "opencv"
+    const tagList = await fetch(`https://api.github.com/repos/${owner}/${repo}/tags`).then(response => response.json())
+    const result = []
+    tagList.forEach(tag => {
+      result.push(tag.name)
+    })
+    return result
+  }
+
+  (async () => (
+    console.log(await getOpenCVTags())
+  ))()
+</script>

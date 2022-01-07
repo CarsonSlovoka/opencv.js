@@ -1,6 +1,6 @@
 <p align="center">
   <a href="asset/img/site/favicon.svg">
-    <img alt="opencv.js" src="asset/img/site/favicon.svg" width="384"/>
+    <img alt="opencv.js" src="asset/img/site/favicon.svg" width="256"/>
   </a>
 </p>
 

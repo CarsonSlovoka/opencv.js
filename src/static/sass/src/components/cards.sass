@@ -1,0 +1,18 @@
+@mixin styles
+  .card
+    margin: auto
+    max-width: 30rem // 適合和margin:auto一起搭配
+    border-radius: 0.25rem
+    border: 1px solid rgba(0,0,0,.125)
+    background-color: #fff
+    display: flex
+    flex-direction: column
+
+    &-body
+      padding: 1rem 1rem
+
+    &-tail
+      margin-top: 0.75rem
+      display: flex
+      justify-content: space-between // 看有幾個項目
+      margin-bottom: 0.25rem

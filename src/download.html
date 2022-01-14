@@ -1,0 +1,195 @@
+<meta data-include-html="tmpl/head.html">
+<script type="module" src="static/js/pkg/tmpl/include.js"></script>
+<script type="module" src="static/js/pkg/components/navbar.js"></script>
+
+<body class="mt-5 container" style="background-image: url('static/img/bg/alternating-arrowhead.svg')">
+<br data-include-html="tmpl/navbar.html">
+
+
+<section style="margin:auto;max-width: 30rem" aria-label="content-wrap">
+  <h1>下載專區</h1>
+  <p class="lead">
+    <strong>找尋各個版本</strong>
+  </p>
+
+  <section id="version-list">
+    <!--
+    <div class="card">
+      <div class="card-body">
+        <h3>V5.3.2</h3>
+        <div>強大的性能改進...</div>
+
+        <hr>
+        <div class="card-tail">
+          <a href="">
+            <button class="btn-lg btn-orange">download</button>
+          </a>
+          <small class="text-muted">Carson | Jan 13, 2022</small>
+        </div>
+      </div>
+    </div>
+    -->
+  </section>
+  <div class="pagination"></div>
+</section>
+
+</body>
+
+<script type="module">
+  import {Pagination} from "./static/js/pkg/components/pagination.js"
+
+  /**
+   * @param {'releases'|'tags'} infoName
+   */
+  async function getGithubRepoInfo(infoName) {
+    const owner = "opencv"
+    const repo = "opencv"
+    const tagList = await fetch(`https://api.github.com/repos/${owner}/${repo}/${infoName}`).then(response => response.json())
+    const result = []
+    tagList.forEach(tag => {
+      result.push(tag.name)
+    })
+    return result
+  }
+
+  function AddReleaseCard() {
+
+  }
+
+  function UpdatePage(pageNumber) {
+    const versionElem = document.querySelector(`#version-list`)
+    versionElem.innerHTML = ""
+    console.log(pageNumber)
+    initPaginationEvent()
+  }
+
+  function initPaginationEvent() {
+    document.querySelectorAll(`div[class="pagination"] a`).forEach(aElem => {
+      aElem.addEventListener("click", ()=>{
+        UpdatePage(+document.querySelector(`a[class="current-page"]`).innerText)
+      })
+    })
+  }
+
+  (async () => {
+
+      const testData = [...new Array(100).keys()]
+      const pagination = new Pagination(testData)
+      pagination.Build(document.querySelector(`div[class="pagination"]`))
+      initPaginationEvent()
+
+
+
+      // https://api.github.com/repos/opencv/opencv/releases
+      //const tagList = await getGithubRepoInfo("releases")
+      //const versionElem = document.querySelector(`#version-list`)
+      const tagList = []
+      tagList.forEach(tag => {
+        /**
+         tag的格式如下: (不確定以後會不會改變，所以先記錄下來)
+         {
+            "name": "4.5.5",
+            "zipball_url": "https://api.github.com/repos/opencv/opencv/zipball/refs/tags/4.5.5",
+            "tarball_url": "https://api.github.com/repos/opencv/opencv/tarball/refs/tags/4.5.5",
+            "commit": {
+              "sha": "dad26339a975b49cfb6c7dbe4bd5276c9dcb36e2",
+              "url": "https://api.github.com/repos/opencv/opencv/commits/dad26339a975b49cfb6c7dbe4bd5276c9dcb36e2"
+            },
+            "node_id": "MDM6UmVmNTEwODA1MTpyZWZzL3RhZ3MvNC41LjU="
+          }
+         releases format:
+         {
+            "url": "https://api.github.com/repos/opencv/opencv/releases/55976419",
+            "assets_url": "https://api.github.com/repos/opencv/opencv/releases/55976419/assets",
+            "upload_url": "https://uploads.github.com/repos/opencv/opencv/releases/55976419/assets{?name,label}",
+            "html_url": "https://github.com/opencv/opencv/releases/tag/4.5.5",
+            "id": 55976419,
+            "author": {
+              "login": "alalek",
+              "id": 4981219,
+              "node_id": "MDQ6VXNlcjQ5ODEyMTk=",
+              "avatar_url": "https://avatars.githubusercontent.com/u/4981219?v=4",
+              "gravatar_id": "",
+              "url": "https://api.github.com/users/alalek",
+              "html_url": "https://github.com/alalek",
+              "followers_url": "https://api.github.com/users/alalek/followers",
+              "following_url": "https://api.github.com/users/alalek/following{/other_user}",
+              "gists_url": "https://api.github.com/users/alalek/gists{/gist_id}",
+              "starred_url": "https://api.github.com/users/alalek/starred{/owner}{/repo}",
+              "subscriptions_url": "https://api.github.com/users/alalek/subscriptions",
+              "organizations_url": "https://api.github.com/users/alalek/orgs",
+              "repos_url": "https://api.github.com/users/alalek/repos",
+              "events_url": "https://api.github.com/users/alalek/events{/privacy}",
+              "received_events_url": "https://api.github.com/users/alalek/received_events",
+              "type": "User",
+              "site_admin": false
+            },
+            "node_id": "RE_kwDOAE3xU84DViHj",
+            "tag_name": "4.5.5",
+            "target_commitish": "4.x",
+            "name": "OpenCV 4.5.5",
+            "draft": false,
+            "prerelease": false,
+            "created_at": "2021-12-25T03:53:27Z",
+            "published_at": "2021-12-25T11:50:04Z",
+            "assets": [
+              {
+                "url": "https://api.github.com/repos/opencv/opencv/releases/assets/52560154",
+                "id": 52560154,
+                "node_id": "RA_kwDOAE3xU84DIgEa",
+                "name": "opencv-4.5.5-android-sdk.zip",
+                "label": null,
+                "uploader": {
+                  "login": "alalek",
+                  "id": 4981219,
+                  "node_id": "MDQ6VXNlcjQ5ODEyMTk=",
+                  "avatar_url": "https://avatars.githubusercontent.com/u/4981219?v=4",
+                  "gravatar_id": "",
+                  "url": "https://api.github.com/users/alalek",
+                  "html_url": "https://github.com/alalek",
+                  "followers_url": "https://api.github.com/users/alalek/followers",
+                  "following_url": "https://api.github.com/users/alalek/following{/other_user}",
+                  "gists_url": "https://api.github.com/users/alalek/gists{/gist_id}",
+                  "starred_url": "https://api.github.com/users/alalek/starred{/owner}{/repo}",
+                  "subscriptions_url": "https://api.github.com/users/alalek/subscriptions",
+                  "organizations_url": "https://api.github.com/users/alalek/orgs",
+                  "repos_url": "https://api.github.com/users/alalek/repos",
+                  "events_url": "https://api.github.com/users/alalek/events{/privacy}",
+                  "received_events_url": "https://api.github.com/users/alalek/received_events",
+                  "type": "User",
+                  "site_admin": false
+                },
+                "content_type": "application/zip",
+                "state": "uploaded",
+                "size": 234410225,
+                "download_count": 635,
+                "created_at": "2021-12-25T11:40:56Z",
+                "updated_at": "2021-12-25T11:41:48Z",
+                "browser_download_url": "https://github.com/opencv/opencv/releases/download/4.5.5/opencv-4.5.5-android-sdk.zip"
+              },
+         **/
+        const fragAll = document.createDocumentFragment()
+
+        const curPage = document.querySelector(`a[class="current-page"]`)
+
+        if (versionElem.tag_name) {
+          const frag = document.createRange().createContextualFragment(`
+<div class="card">
+  <div class="card-body">
+    <h3>V5.3.2</h3>
+    <div>強大的性能改進...</div>
+
+    <hr>
+    <div class="card-tail">
+      <a href="">
+        <button class="btn-lg btn-orange">download</button>
+      </a>
+      <small class="text-muted">Carson | Jan 13, 2022</small>
+    </div>
+  </div>
+</div>`)
+        }
+      })
+    }
+  )()
+</script>
